@@ -76,27 +76,27 @@ void GuiApp::perform()
         m->onPreInit(runMode);
     }
 
-    SplashScreen* splashScreen = nullptr;
-    if (multiInstancesProvider()->isMainInstance()) {
-        splashScreen = new SplashScreen(SplashScreen::Default);
-    } else {
-        const project::ProjectFile& file = startupScenario()->startupScoreFile();
-        if (file.isValid()) {
-            if (file.hasDisplayName()) {
-                splashScreen = new SplashScreen(SplashScreen::ForNewInstance, false, file.displayName(true /* includingExtension */));
-            } else {
-                splashScreen = new SplashScreen(SplashScreen::ForNewInstance, false);
-            }
-        } else if (startupScenario()->isStartWithNewFileAsSecondaryInstance()) {
-            splashScreen = new SplashScreen(SplashScreen::ForNewInstance, true);
-        } else {
-            splashScreen = new SplashScreen(SplashScreen::Default);
-        }
-    }
+    // SplashScreen* splashScreen = nullptr;
+    // if (multiInstancesProvider()->isMainInstance()) {
+    //     splashScreen = new SplashScreen(SplashScreen::Default);
+    // } else {
+    //     const project::ProjectFile& file = startupScenario()->startupScoreFile();
+    //     if (file.isValid()) {
+    //         if (file.hasDisplayName()) {
+    //             splashScreen = new SplashScreen(SplashScreen::ForNewInstance, false, file.displayName(true /* includingExtension */));
+    //         } else {
+    //             splashScreen = new SplashScreen(SplashScreen::ForNewInstance, false);
+    //         }
+    //     } else if (startupScenario()->isStartWithNewFileAsSecondaryInstance()) {
+    //         splashScreen = new SplashScreen(SplashScreen::ForNewInstance, true);
+    //     } else {
+    //         splashScreen = new SplashScreen(SplashScreen::Default);
+    //     }
+    // }
 
-    if (splashScreen) {
-        splashScreen->show();
-    }
+    // if (splashScreen) {
+    //     splashScreen->show();
+    // }
 
     // ====================================================
     // Setup modules: onInit
@@ -150,7 +150,7 @@ void GuiApp::perform()
 #endif
 
     QObject::connect(engine, &QQmlApplicationEngine::objectCreated,
-                     qApp, [this, url, splashScreen](QObject* obj, const QUrl& objUrl) {
+                     qApp, [this, url /*, splashScreen*/](QObject* obj, const QUrl& objUrl) {
         if (!obj && url == objUrl) {
             LOGE() << "failed Qml load\n";
             QCoreApplication::exit(-1);
@@ -169,10 +169,10 @@ void GuiApp::perform()
 
             startupScenario()->runOnSplashScreen();
 
-            if (splashScreen) {
-                splashScreen->close();
-                delete splashScreen;
-            }
+            // if (splashScreen) {
+            //     splashScreen->close();
+            //     delete splashScreen;
+            // }
 
             startupScenario()->runAfterSplashScreen();
         }
