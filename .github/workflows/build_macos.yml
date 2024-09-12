@@ -96,18 +96,15 @@ jobs:
           fi  
         fi
 
-        DO_NOTARIZE='false'
-        if [ "$BUILD_MODE" != "devel" ]; then 
-          DO_NOTARIZE='true'
-          if [ -z "${{ secrets.APPLE_USERNAME }}" ]; then 
-            echo "warning: not set APPLE_USERNAME, notarize disabled" 
-            DO_NOTARIZE='false'
-          fi
-          if [ -z "${{ secrets.APPLE_PASSWORD }}" ]; then 
-            echo "warning: not set APPLE_PASSWORD, notarize disabled" 
-            DO_NOTARIZE='false'
-          fi 
+        DO_NOTARIZE='true'
+        if [ -z "${{ secrets.APPLE_USERNAME }}" ]; then 
+          echo "warning: not set APPLE_USERNAME, notarize disabled" 
+          DO_NOTARIZE='false'
         fi
+        if [ -z "${{ secrets.APPLE_PASSWORD }}" ]; then 
+          echo "warning: not set APPLE_PASSWORD, notarize disabled" 
+          DO_NOTARIZE='false'
+        fi 
 
         DO_BUILD='true'
         if [ "$BUILD_MODE" == "nightly" ]; then 
