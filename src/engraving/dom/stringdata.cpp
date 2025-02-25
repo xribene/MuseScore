@@ -199,7 +199,8 @@ void StringData::fretChords(Chord* chord) const
     for (const auto& p : sortedNotes) {
         Note* note = p.second;
         if (note->string() != INVALID_STRING_INDEX && note->displayFret() == Note::DisplayFretOption::NoHarmonic) {
-            bUsed[note->string()]++;
+            // bUsed[note->string()]++;
+            bUsed[note->string()] = 1;
         }
         if (note->fret() != INVALID_FRET_INDEX && note->fret() < minFret) {
             minFret = note->fret();
@@ -237,7 +238,8 @@ void StringData::fretChords(Chord* chord) const
             }
             // note can be fretted: use string
             else {
-                bUsed[nNewString]++;
+                // bUsed[nNewString]++;
+                bUsed[note->string()] = 1;
             }
         }
 
